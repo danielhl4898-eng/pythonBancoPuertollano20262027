@@ -20,6 +20,8 @@ def cargarCliente(tipo):
 
 def leerFichero(numCliente):
 
+
+    log.escribir("INFO", f"INICIO CARGA DEL CLIENTE:{numCliente}")
     cliente = Cliente(numCliente)
 
     try:
@@ -49,14 +51,18 @@ def leerFichero(numCliente):
 
                 linea = f.readline()
 
+        log.escribir("INFO", f"CLIENTE CARGADO CORRECTAMENTE: {numCliente}")
         # Guardamos el estado final del cliente
         cliente.guardar()
 
+        
         print("Datos del cliente cargados correctamente")
 
         return cliente
 
     except FileNotFoundError:
+        log.escribir("ERROR",
+                     f"FICHERO DE MOVIMIENTOS INEXISTENTE (cliente:{numCliente})")
         print("El usuario no tiene ninguna cuenta con el banco")
         return None
 
