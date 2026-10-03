@@ -30,10 +30,13 @@ def leerFichero(numCliente):
         with open(f"ficherosClientes/{numCliente}.txt", "r") as f:
             #contador de numero de lineas
             nunLinea = 0
+            #contador de movimientos registrados
+            numMov = 0
             linea = f.readline()
 
             while linea:
                 nunLinea +=1
+                numMov += 1
                 datos = linea.strip().split(";")
                 #si la cantidad no es numerica, ignoramos la linea y registramos en el log
                 try:
@@ -57,9 +60,11 @@ def leerFichero(numCliente):
                         raise NameError (f"Operación o destino incorrectos en la linea {nunLinea}")
 
                 except ValueError:
+                    numMov -= 1
                     log.escribir("ERROR",
                              f"La cantidad de la linea {nunLinea} no es un numero valido")
                 except NameError as e:
+                    numMov -=1
                     log.escribir("WARNING",
                                   f"{e}")
                 linea = f.readline()
@@ -72,6 +77,8 @@ def leerFichero(numCliente):
         print("Datos del cliente cargados correctamente\n")
 
         mostrarDatosCliente(cliente)
+
+        mostrarMovimientos(numMov)
 
         return cliente
 
@@ -109,3 +116,8 @@ def mostrarDatosCliente(cliente):
     print(f"Cliente: {cliente.getNumero()}\n"
           f"Saldo de la cuenta: {cliente.getCuenta().getSaldo()}\n"
           f"Saldo del depósito: {cliente.getDeposito().getSaldo()}\n")
+
+#mostrar por pantalla y registro en el log de las lineas del fichero procesadas
+def mostrarMovimientos (num):
+    print (f"Movimientos procesados: {num}")
+    log.escribir("INFO",f"Movimientos procesados: {num}")
