@@ -26,30 +26,35 @@ def leerFichero(numCliente):
 
     try:
         with open(f"ficherosClientes/{numCliente}.txt", "r") as f:
-
+            #contador de numero de lineas
+            nunLinea = 0
             linea = f.readline()
 
             while linea:
-
+                nunLinea +=1
                 datos = linea.strip().split(";")
+                #si la cantidad no es numerica, ignoramos la linea y registramos en el log
+                try:
+                    cantidad = float(datos[0])
+                    operacion = datos[1]
+                    destino = datos[2]
 
-                cantidad = float(datos[0])
-                operacion = datos[1]
-                destino = datos[2]
+                    if destino == "Cuenta" and operacion == "Ingreso":
+                        cliente.cuenta.ingresar(cantidad)
 
-                if destino == "Cuenta" and operacion == "Ingreso":
-                    cliente.cuenta.ingresar(cantidad)
+                    elif destino == "Cuenta" and operacion == "Retirada":
+                        cliente.cuenta.retirar(cantidad)
 
-                elif destino == "Cuenta" and operacion == "Retirada":
-                    cliente.cuenta.retirar(cantidad)
+                    elif destino == "Deposito" and operacion == "Ingreso":
+                        cliente.deposito.ingresar(cantidad)
 
-                elif destino == "Deposito" and operacion == "Ingreso":
-                    cliente.deposito.ingresar(cantidad)
-
-                elif destino == "Deposito" and operacion == "Retirada":
-                    cliente.deposito.retirar(cantidad)
-
+                    elif destino == "Deposito" and operacion == "Retirada":
+                        cliente.deposito.retirar(cantidad)
+                except ValueError:
+                    log.escribir("ERROR",
+                             f"La cantidad de la linea {nunLinea} no es un numero valido")
                 linea = f.readline()
+
 
         log.escribir("INFO", f"CLIENTE CARGADO CORRECTAMENTE: {numCliente}")
         # Guardamos el estado final del cliente
@@ -66,6 +71,8 @@ def leerFichero(numCliente):
                      f"FICHERO DE MOVIMIENTOS INEXISTENTE (cliente:{numCliente})")
         print("El usuario no tiene ninguna cuenta con el banco")
         return None
+
+
 
 
 def cargarClienteGuardado(numCliente):
