@@ -55,8 +55,9 @@ def leerFichero(numCliente):
         # Guardamos el estado final del cliente
         cliente.guardar()
 
-        
-        print("Datos del cliente cargados correctamente")
+        print("Datos del cliente cargados correctamente\n")
+
+        mostrarDatosCliente(cliente)
 
         return cliente
 
@@ -87,3 +88,8 @@ def cargarClienteGuardado(numCliente):
                      f"INTENTO DE CONSULTA DE CLIENTE NO CARGADO:´{numCliente}")
         print("Primero tienes que cargar los datos de este cliente")
         return None
+
+def mostrarDatosCliente(cliente):
+    print(f"Cliente: {cliente.getNumero()}\n"
+          f"Saldo de la cuenta: {cliente.getCuenta().getSaldo()}\n"
+          f"Saldo del depósito: {cliente.getDeposito().getSaldo()}\n")
