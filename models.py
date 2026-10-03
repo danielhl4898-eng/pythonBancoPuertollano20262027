@@ -57,6 +57,7 @@ class Cliente:
                 f"{self.deposito.getSaldo()}"
             )
 
+
     def getSaldoTotal(self):
         total = self.cuenta.getSaldo() + self.deposito.getSaldo()
         return total
