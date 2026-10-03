@@ -1,3 +1,5 @@
+from audioop import error
+
 from models import Cliente
 from logs import Log
 
@@ -50,9 +52,16 @@ def leerFichero(numCliente):
 
                     elif destino == "Deposito" and operacion == "Retirada":
                         cliente.deposito.retirar(cantidad)
+                    #recogemos como excepcion que el destino o la oprecion no sean las establecidas
+                    else:
+                        raise NameError (f"Operación o destino incorrectos en la linea {nunLinea}")
+
                 except ValueError:
                     log.escribir("ERROR",
                              f"La cantidad de la linea {nunLinea} no es un numero valido")
+                except NameError as e:
+                    log.escribir("WARNING",
+                                  f"{e}")
                 linea = f.readline()
 
 
