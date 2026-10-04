@@ -51,8 +51,14 @@ class Cliente:
             os.mkdir("datosClientes")
 
         with open(f"datosClientes/{self.numero}.txt", "w") as f:
+            #Cambio los ";" por saltos de línea
             f.write(
-                f"{self.numero};"
-                f"{self.cuenta.getSaldo()};"
+                f"{self.numero}\n"
+                f"{self.cuenta.getSaldo()}\n"
                 f"{self.deposito.getSaldo()}"
             )
+
+
+    def getSaldoTotal(self):
+        total = self.cuenta.getSaldo() + self.deposito.getSaldo()
+        return total
